@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es" class="h-full">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 * { font-family: 'Nunito', sans-serif; }
-body { box-sizing: border-box; }
 .section { display:none; }
 .tab-active { background: linear-gradient(135deg,#6366f1,#8b5cf6); color:white; transform:scale(1.05);}
 .object-sink { animation: sink 2s ease-out forwards; position:absolute; }
@@ -16,7 +15,7 @@ body { box-sizing: border-box; }
 </style>
 </head>
 
-<body class="h-full bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800 text-white p-4">
+<body class="bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800 text-white p-4">
 
 <header class="text-center mb-6">
 <h1 class="text-4xl font-extrabold">Laboratorio de Densidad</h1>
@@ -35,13 +34,16 @@ body { box-sizing: border-box; }
 <!-- TEORÍA -->
 <section id="teoria" class="section">
 
+<h2 class="text-2xl font-bold mb-6">La Densidad</h2>
+
+<!-- AÑADIDO DIDÁCTICO -->
 <div class="bg-emerald-500/20 border border-emerald-400/30 rounded-2xl p-5 mb-6">
 <h3 class="font-bold text-lg mb-3">🎯 Objetivos de Aprendizaje</h3>
 <ul class="text-sm space-y-1">
 <li>✔ Comprender la densidad como relación entre masa y volumen.</li>
-<li>✔ Usar correctamente la fórmula ρ = m / V.</li>
+<li>✔ Aplicar la fórmula ρ = m / V.</li>
 <li>✔ Predecir si un objeto flota o se hunde.</li>
-<li>✔ Interpretar fenómenos reales usando densidad.</li>
+<li>✔ Interpretar fenómenos reales.</li>
 </ul>
 </div>
 
@@ -52,14 +54,15 @@ body { box-sizing: border-box; }
 
 <div class="bg-cyan-500/20 border border-cyan-400/30 rounded-2xl p-5 mb-6">
 <h3 class="font-bold text-lg mb-3">🌍 Situación de Aprendizaje</h3>
-<p class="text-sm">Investigar por qué unos objetos flotan y otros se hunden mediante un laboratorio virtual.</p>
+<p class="text-sm">Investigar por qué algunos objetos flotan y otros se hunden mediante un laboratorio virtual.</p>
 </div>
+
+<p>La densidad indica cuánta materia hay en un volumen.</p>
+<h3 class="text-xl font-bold mt-4">ρ = m / V</h3>
 
 <div class="bg-white/10 rounded-xl p-4 mt-4 text-sm">
 🧠 <strong>Ayuda:</strong> “¿Cuánta materia hay metida en este espacio?”
 </div>
-
-<h2 class="text-2xl font-bold mt-6">ρ = m / V</h2>
 
 </section>
 
@@ -78,69 +81,4 @@ body { box-sizing: border-box; }
 
 <div id="tower" class="relative w-full h-96 bg-slate-800 rounded-2xl overflow-hidden">
 <div class="absolute bottom-0 h-1/4 w-full bg-amber-600">Miel</div>
-<div class="absolute bottom-1/4 h-1/4 w-full bg-blue-600">Agua</div>
-<div class="absolute bottom-2/4 h-1/4 w-full bg-purple-600">Aceite</div>
-<div class="absolute bottom-3/4 h-1/4 w-full bg-pink-500">Alcohol</div>
-<div id="drops"></div>
-</div>
-
-<button onclick="dropObj('🧱',0.24,'Corcho')" class="bg-white/20 p-2 mt-4 rounded">Soltar Corcho</button>
-
-<p id="feedback"></p>
-</section>
-
-<!-- QUIZ -->
-<section id="quiz" class="section">
-<h2 class="text-2xl font-bold mb-4">🎯 Evaluación</h2>
-<div class="bg-yellow-500/20 border border-yellow-400/30 rounded-2xl p-5 mt-6 text-sm">
-✔ Comprende el concepto de densidad<br>
-✔ Aplica fórmulas correctamente<br>
-✔ Interpreta fenómenos físicos<br>
-✔ Razona científicamente
-</div>
-</section>
-
-</main>
-
-<script>
-function showSection(id){
-document.querySelectorAll('.section').forEach(s=>s.style.display='none');
-document.getElementById(id).style.display='block';
-}
-
-function calc(){
-let m=parseFloat(masa.value);
-let v=parseFloat(volumen.value);
-res.innerText="Densidad = "+(m/v).toFixed(2)+" g/cm³";
-}
-
-function dropObj(emoji,density,name){
-let tower=document.getElementById('drops');
-let el=document.createElement('div');
-let target;
-
-if(density>1.4){target='85%'}
-else if(density>1){target='65%'}
-else if(density>0.9){target='50%'}
-else if(density>0.8){target='35%'}
-else{target='8%'} // 👈 CORCHO FLOTA ARRIBA
-
-el.className='object-sink text-3xl';
-el.style.left=Math.random()*80+'%';
-el.style.setProperty('--sink-target',target);
-el.textContent=emoji;
-tower.appendChild(el);
-
-const action=density>1?'se hunde hasta':'flota sobre';
-feedback.innerHTML=`${name} (${density}) ${action} la capa correspondiente`;
-}
-
-showSection('teoria');
-</script>
-
-</body>
-</html>
-
-
- 
-
+<div cla
