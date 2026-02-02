@@ -81,4 +81,75 @@
 
 <div id="tower" class="relative w-full h-96 bg-slate-800 rounded-2xl overflow-hidden">
 <div class="absolute bottom-0 h-1/4 w-full bg-amber-600">Miel</div>
-<div cla
+<div class="absolute bottom-1/4 h-1/4 w-full bg-blue-600">Agua</div>
+<div class="absolute bottom-2/4 h-1/4 w-full bg-purple-600">Aceite</div>
+<div class="absolute bottom-3/4 h-1/4 w-full bg-pink-500">Alcohol</div>
+<div id="drops"></div>
+</div>
+
+<button onclick="dropObj('🪵',0.24,'Corcho')" class="bg-white/20 p-2 mt-4 rounded">Soltar Corcho</button>
+
+<p id="feedback"></p>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz" class="section">
+<h2 class="text-2xl font-bold mb-4">🎯 Quiz</h2>
+
+<!-- AÑADIDO EVALUACIÓN -->
+<div class="bg-yellow-500/20 border border-yellow-400/30 rounded-2xl p-5 mt-6 text-sm">
+<h3 class="font-bold text-lg mb-2">📊 Evaluación</h3>
+✔ Comprende la densidad<br>
+✔ Aplica fórmulas correctamente<br>
+✔ Interpreta fenómenos físicos<br>
+✔ Razona científicamente
+</div>
+
+</section>
+
+</main>
+
+<script>
+function showSection(id){
+document.querySelectorAll('.section').forEach(s=>s.style.display='none');
+document.getElementById(id).style.display='block';
+}
+
+function calc(){
+let m=parseFloat(masa.value);
+let v=parseFloat(volumen.value);
+res.innerText="Densidad = "+(m/v).toFixed(2)+" g/cm³";
+}
+
+function dropObj(emoji,density,name){
+let tower=document.getElementById('drops');
+let el=document.createElement('div');
+let targetPercent;
+
+if (density > 1.4) {
+  targetPercent = 85;
+} else if (density > 1.0) {
+  targetPercent = 65;
+} else if (density > 0.9) {
+  targetPercent = 50;
+} else if (density > 0.8) {
+  targetPercent = 35;
+} else {
+  targetPercent = 8; // CORCHO ARRIBA
+}
+
+el.className='object-sink text-3xl';
+el.style.left=Math.random()*80+'%';
+el.style.setProperty('--sink-target',targetPercent+'%');
+el.textContent=emoji;
+tower.appendChild(el);
+
+const action = density > 1 ? 'se hunde hasta' : 'flota sobre';
+feedback.innerHTML = `${name} (${density} g/cm³) ${action} la capa correspondiente`;
+}
+
+showSection('teoria');
+</script>
+
+</body>
+</html>
