@@ -1,45 +1,156 @@
 <!doctype html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Laboratorio de Densidad</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-* { font-family: 'Nunito', sans-serif; }
-.section { display:none; }
-.tab-active { background: linear-gradient(135deg,#6366f1,#8b5cf6); color:white; transform:scale(1.05);}
-.object-sink { animation: sink 2s ease-out forwards; position:absolute; }
-@keyframes sink { 0%{top:10%;} 100%{top:var(--sink-target);} }
-</style>
-</head>
+<html lang="es" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratorio de Densidad</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      font-family: 'Nunito', sans-serif;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes bubble {
+      0% { transform: translateY(100%) scale(0); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-100%) scale(1); opacity: 0; }
+    }
+    
+    @keyframes sink {
+      0% { top: 10%; }
+      100% { top: var(--sink-target); }
+    }
+    
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
+    }
+    
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-10deg); }
+      50% { transform: rotate(10deg); }
+    }
+    
+    @keyframes pulse-heart {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .animate-bounce-slow {
+      animation: bounce-slow 2s ease-in-out infinite;
+    }
+    
+    .animate-wiggle {
+      animation: wiggle 0.8s ease-in-out infinite;
+    }
+    
+    .pulse-heart {
+      animation: pulse-heart 1.5s ease-in-out infinite;
+    }
+    
+    .float-animation {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .bubble {
+      animation: bubble 2s ease-out forwards;
+    }
+    
+    .glow-effect {
+      animation: glow 2s ease-in-out infinite;
+    }
+    
+    .object-sink {
+      animation: sink 2s ease-out forwards;
+    }
+    
+    .tab-active {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      color: white;
+      transform: scale(1.05);
+    }
+    
+    .liquid-layer {
+      transition: all 0.5s ease;
+    }
+    
+    .draggable {
+      cursor: grab;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .draggable:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+    
+    .progress-fill {
+      transition: width 0.5s ease;
+    }
+    
+    input[type="range"] {
+      -webkit-appearance: none;
+      height: 8px;
+      border-radius: 4px;
+      background: #e2e8f0;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(99, 102, 241, 0.4);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800 text-white overflow-auto">
+  <div id="app" class="w-full min-h-full p-4 md:p-6"><!-- Header -->
+   <header class="text-center mb-6">
+    <div class="inline-flex items-center gap-3 mb-2">
+     <svg class="w-12 h-12 float-animation" viewbox="0 0 48 48" fill="none"><circle cx="24" cy="28" r="16" fill="url(#beaker-grad)" opacity="0.9" /> <path d="M16 8h16v6l6 18a4 4 0 01-4 4H14a4 4 0 01-4-4l6-18V8z" stroke="#fff" stroke-width="2" fill="none" /> <rect x="14" y="4" width="20" height="4" rx="2" fill="#fff" /> <circle cx="20" cy="28" r="3" fill="#fff" opacity="0.6" /> <circle cx="28" cy="32" r="2" fill="#fff" opacity="0.4" /> <defs>
+       <lineargradient id="beaker-grad" x1="8" y1="12" x2="40" y2="44">
+        <stop stop-color="#60a5fa" />
+        <stop offset="1" stop-color="#3b82f6" />
+       </lineargradient>
+      </defs>
+     </svg>
+     <h1 id="main-title" class="text-3xl md:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 via-blue-300 to-purple-300">Laboratorio de Densidad</h1>
+    </div>
+<p id="welcome-message" class="text-lg text-blue-200 opacity-90">¡Descubre los secretos de la densidad!</p>
+<p class="text-sm text-purple-300 mt-1">Física y Química · 2º ESO</p>
+</header><!-- Navigation Tabs -->
+<nav class="flex flex-wrap justify-center gap-2 mb-6"><button onclick="showSection('teoria')" class="tab-btn px-4 py-2 rounded-full font-semibold transition-all duration-300 bg-white/10 hover:bg-white/20" data-tab="teoria"> 📚 Teoría </button> <button onclick="showSection('calculadora')" class="tab-btn px-4 py-2 rounded-full font-semibold transition-all duration-300 bg-white/10 hover:bg-white/20" data-tab="calculadora"> 🧮 Calculadora </button> <button onclick="showSection('experimento')" class="tab-btn px-4 py-2 rounded-full font-semibold transition-all duration-300 bg-white/10 hover:bg-white/20" data-tab="experimento"> 🔬 Experimento </button> <button onclick="showSection('quiz')" class="tab-btn px-4 py-2 rounded-full font-semibold transition-all duration-300 bg-white/10 hover:bg-white/20" data-tab="quiz"> 🎯 Quiz </button>
+</nav><!-- Content Sections -->
+<main class="max-w-4xl mx-auto"><!-- TEORÍA -->
+<section id="teoria" class="section hidden">
+<div class="bg-white/10 backdrop-blur-lg rounded-3xl p-6 md:p-8 glow-effect">
+<h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span class="text-3xl">📖</span> ¿Qué es la Densidad?</h2>
 
-<body class="bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800 text-white p-4">
-
-<header class="text-center mb-6">
-<h1 class="text-4xl font-extrabold">Laboratorio de Densidad</h1>
-<p class="text-blue-200">Física y Química · 2º ESO</p>
-</header>
-
-<nav class="flex justify-center gap-2 mb-6">
-<button onclick="showSection('teoria')" class="tab-btn px-4 py-2 bg-white/10 rounded-full">📚 Teoría</button>
-<button onclick="showSection('calculadora')" class="tab-btn px-4 py-2 bg-white/10 rounded-full">🧮 Calculadora</button>
-<button onclick="showSection('experimento')" class="tab-btn px-4 py-2 bg-white/10 rounded-full">🔬 Experimento</button>
-<button onclick="showSection('quiz')" class="tab-btn px-4 py-2 bg-white/10 rounded-full">🎯 Quiz</button>
-</nav>
-
-<main class="max-w-4xl mx-auto">
-
-<!-- TEORÍA -->
-<section id="teoria" class="section">
-
-<h2 class="text-2xl font-bold mb-6">La Densidad</h2>
-
-<!-- AÑADIDO DIDÁCTICO -->
+<!-- 🔽 AÑADIDO DIDÁCTICO -->
 <div class="bg-emerald-500/20 border border-emerald-400/30 rounded-2xl p-5 mb-6">
 <h3 class="font-bold text-lg mb-3">🎯 Objetivos de Aprendizaje</h3>
-<ul class="text-sm space-y-1">
+<ul class="space-y-2 text-blue-100 text-sm">
 <li>✔ Comprender la densidad como relación entre masa y volumen.</li>
 <li>✔ Aplicar la fórmula ρ = m / V.</li>
 <li>✔ Predecir si un objeto flota o se hunde.</li>
@@ -49,107 +160,628 @@
 
 <div class="bg-purple-500/20 border border-purple-400/30 rounded-2xl p-5 mb-6">
 <h3 class="font-bold text-lg mb-3">🧩 Competencias</h3>
-<p class="text-sm">🔬 STEM · 🧠 Aprender a aprender · 💬 Comunicación lingüística · 🌍 Conciencia científica</p>
+<p class="text-sm text-blue-100">🔬 STEM · 🧠 Aprender a aprender · 💬 Comunicación lingüística · 🌍 Conciencia científica</p>
 </div>
 
 <div class="bg-cyan-500/20 border border-cyan-400/30 rounded-2xl p-5 mb-6">
 <h3 class="font-bold text-lg mb-3">🌍 Situación de Aprendizaje</h3>
-<p class="text-sm">Investigar por qué algunos objetos flotan y otros se hunden mediante un laboratorio virtual.</p>
+<p class="text-sm text-blue-100">El alumnado investiga por qué algunos objetos flotan y otros se hunden utilizando un laboratorio virtual.</p>
+</div>
+<!-- 🔼 FIN AÑADIDO -->
+
+<div class="grid md:grid-cols-2 gap-6 mb-8">
+<div class="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-2xl p-5">
+<h3 class="font-bold text-xl mb-3 text-cyan-300">Definición</h3>
+<p class="text-blue-100 leading-relaxed">La <strong class="text-white">densidad</strong> es una propiedad física que nos indica cuánta masa tiene un cuerpo en relación con el espacio que ocupa (volumen).</p>
+<div class="mt-4 p-4 bg-white/10 rounded-xl text-center">
+<p class="text-2xl font-bold text-yellow-300">ρ = m / V</p>
+<p class="text-sm mt-2 text-blue-200">Densidad = Masa ÷ Volumen</p>
 </div>
 
-<p>La densidad indica cuánta materia hay en un volumen.</p>
-<h3 class="text-xl font-bold mt-4">ρ = m / V</h3>
-
+<!-- 🧠 APOYO VISUAL -->
 <div class="bg-white/10 rounded-xl p-4 mt-4 text-sm">
 🧠 <strong>Ayuda:</strong> “¿Cuánta materia hay metida en este espacio?”
 </div>
 
-</section>
-
-<!-- CALCULADORA -->
-<section id="calculadora" class="section">
-<h2 class="text-2xl font-bold mb-4">🧮 Calculadora</h2>
-<input id="masa" placeholder="Masa (g)" class="p-2 rounded text-black">
-<input id="volumen" placeholder="Volumen (cm³)" class="p-2 rounded text-black">
-<button onclick="calc()" class="bg-green-500 px-4 py-2 rounded">Calcular densidad</button>
-<p id="res"></p>
-</section>
-
-<!-- EXPERIMENTO -->
-<section id="experimento" class="section">
-<h2 class="text-2xl font-bold mb-4">🔬 Torre de Densidades</h2>
-
-<div id="tower" class="relative w-full h-96 bg-slate-800 rounded-2xl overflow-hidden">
-<div class="absolute bottom-0 h-1/4 w-full bg-amber-600">Miel</div>
-<div class="absolute bottom-1/4 h-1/4 w-full bg-blue-600">Agua</div>
-<div class="absolute bottom-2/4 h-1/4 w-full bg-purple-600">Aceite</div>
-<div class="absolute bottom-3/4 h-1/4 w-full bg-pink-500">Alcohol</div>
-<div id="drops"></div>
 </div>
-
-<button onclick="dropObj('🪵',0.24,'Corcho')" class="bg-white/20 p-2 mt-4 rounded">Soltar Corcho</button>
-
-<p id="feedback"></p>
-</section>
-
-<!-- QUIZ -->
-<section id="quiz" class="section">
-<h2 class="text-2xl font-bold mb-4">🎯 Quiz</h2>
-
-<!-- AÑADIDO EVALUACIÓN -->
-<div class="bg-yellow-500/20 border border-yellow-400/30 rounded-2xl p-5 mt-6 text-sm">
-<h3 class="font-bold text-lg mb-2">📊 Evaluación</h3>
-✔ Comprende la densidad<br>
-✔ Aplica fórmulas correctamente<br>
-✔ Interpreta fenómenos físicos<br>
-✔ Razona científicamente
+<div class="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl p-5">
+<h3 class="font-bold text-xl mb-3 text-purple-300">Unidades</h3>
+<ul class="space-y-3 text-blue-100">
+<li class="flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-purple-500/30 flex items-center justify-center">📏</span> <span><strong>kg/m³</strong> - Sistema Internacional</span></li>
+<li class="flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-pink-500/30 flex items-center justify-center">🧪</span> <span><strong>g/cm³</strong> - Uso común en laboratorio</span></li>
+<li class="flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-blue-500/30 flex items-center justify-center">💧</span> <span><strong>g/mL</strong> - Para líquidos</span></li>
+</ul>
 </div>
+</div>
+         <div class="absolute bottom-1/4 left-0 right-0 h-1/4 liquid-layer" style="background: linear-gradient(to bottom, #3b82f6, #1d4ed8);">
+          <p class="absolute top-2 left-3 text-xs font-bold text-blue-100">Agua (1,0 g/cm³)</p>
+         </div>
+         <div class="absolute bottom-2/4 left-0 right-0 h-1/4 liquid-layer" style="background: linear-gradient(to bottom, #a855f7, #7c3aed);">
+          <p class="absolute top-2 left-3 text-xs font-bold text-purple-100">Aceite (0,9 g/cm³)</p>
+         </div>
+         <div class="absolute bottom-3/4 left-0 right-0 h-1/4 liquid-layer" style="background: linear-gradient(to bottom, #f472b6, #ec4899);">
+          <p class="absolute top-2 left-3 text-xs font-bold text-pink-100">Alcohol (0,8 g/cm³)</p>
+         </div><!-- Dropped objects container -->
+         <div id="dropped-objects" class="absolute inset-0 pointer-events-none"></div>
+        </div>
+       </div><!-- Objects to drop -->
+       <div>
+        <h3 class="font-bold text-lg mb-4">🎯 Objetos para soltar:</h3>
+        <div id="objects-grid" class="grid grid-cols-2 gap-3"><!-- Objects will be rendered here -->
+        </div><button onclick="resetExperiment()" class="mt-4 w-full py-3 bg-red-500/20 border border-red-400/30 rounded-xl font-semibold hover:bg-red-500/30 transition-all"> 🔄 Reiniciar Experimento </button>
+        <div id="experiment-feedback" class="mt-4 p-4 bg-white/10 rounded-xl hidden">
+         <p id="feedback-text" class="text-center"></p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- QUIZ -->
+    <section id="quiz" class="section hidden">
+     <div class="bg-white/10 backdrop-blur-lg rounded-3xl p-6 md:p-8 glow-effect">
+      <h2 class="text-2xl font-bold mb-4 flex items-center gap-2"><span class="text-3xl">🎯</span> Quiz de Densidad</h2><!-- Progress Bar -->
+      <div class="mb-6">
+       <div class="flex justify-between text-sm mb-2"><span>Pregunta <span id="current-question">1</span> de <span id="total-questions">8</span></span> <span>Puntuación: <span id="score" class="font-bold text-yellow-300">0</span></span>
+       </div>
+       <div class="h-3 bg-white/20 rounded-full overflow-hidden">
+        <div id="progress-bar" class="h-full bg-gradient-to-r from-green-400 to-emerald-500 progress-fill" style="width: 12.5%"></div>
+       </div>
+      </div><!-- Question Card -->
+      <div id="question-card" class="bg-white/5 rounded-2xl p-6 mb-6">
+       <p id="question-text" class="text-xl font-semibold mb-6"></p>
+       <div id="options-container" class="space-y-3"><!-- Options will be rendered here -->
+       </div>
+      </div><!-- Quiz Results (hidden initially) -->
+      <div id="quiz-results" class="hidden text-center py-8">
+       <div id="results-emoji" class="text-7xl mb-4"></div>
+       <h3 id="results-title" class="text-3xl font-bold mb-2"></h3>
+       <p id="results-score" class="text-xl text-blue-200 mb-6"></p><button onclick="restartQuiz()" class="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-bold hover:scale-105 transition-all"> 🔄 Intentar de nuevo </button>
+      </div>
+     </div>
+    </section>
+   </main><!-- Adorable Virtual Assistant -->
+   <div id="assistant-container" class="fixed bottom-6 right-6 z-50 max-w-xs"><!-- Assistant Chat Bubble -->
+    <div id="chat-bubble" class="bg-gradient-to-br from-pink-400 via-purple-400 to-blue-400 rounded-3xl p-4 shadow-2xl animate-bounce-slow relative"><!-- Shine effect -->
+     <div class="absolute inset-0 rounded-3xl bg-gradient-to-r from-white/20 to-transparent"></div>
+     <div class="relative z-10">
+      <p id="assistant-message" class="text-white font-bold text-sm mb-3 leading-relaxed">¡Hola! Soy Densi, tu asistente. 💜 ¿Necesitas ayuda?</p>
+      <div id="hint-container" class="space-y-2 mb-3 hidden">
+       <p id="hint-text" class="text-white text-xs bg-white/20 rounded-xl p-2"></p><button onclick="hideHint()" class="w-full py-1 bg-white/30 hover:bg-white/50 rounded-lg text-white text-xs font-semibold transition-all"> Entendido ✓ </button>
+      </div>
+      <div class="flex gap-2 flex-wrap"><button onclick="getHint()" class="px-3 py-1.5 bg-white/30 hover:bg-white/50 rounded-full text-white text-xs font-bold transition-all hover:scale-110"> 💡 Pista </button> <button onclick="toggleAssistant()" class="px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-full text-white text-xs font-bold transition-all hover:scale-110"> ✕ Cerrar </button>
+      </div>
+     </div>
+    </div><!-- Assistant Character (minimized) -->
+    <div id="assistant-icon" class="hidden mt-3 text-center cursor-pointer animate-wiggle" onclick="toggleAssistant()">
+     <div class="inline-block text-5xl transform hover:scale-125 transition-transform drop-shadow-lg">
+      🧪
+     </div>
+    </div>
+   </div>
+   <script>
+    const defaultConfig = {
+      main_title: 'Laboratorio de Densidad',
+      welcome_message: '¡Descubre los secretos de la densidad!',
+      assistant_name: 'Densi',
+      primary_color: '#6366f1',
+      secondary_color: '#1e1b4b',
+      text_color: '#ffffff',
+      accent_color: '#22d3ee',
+      surface_color: '#312e81'
+    };
 
-</section>
+    let config = { ...defaultConfig };
+    
+    // Adorable hints for the assistant
+    const hints = {
+      teoria: [
+        '💜 ¿Sabías que los flamencos flotan porque tienen huesos huecos? ¡Así pesan menos!',
+        '🌊 La densidad del agua es 1 g/cm³, ¡es como la regla de oro de la física!',
+        '⛸️ El hielo flota porque cuando el agua se congela se expande. ¡Qué curioso!',
+        '🪐 Júpiter es tan denso que ¡pesa 318 veces más que la Tierra!',
+        '💎 El diamante es tan denso que ¡brilla porque comprime la luz!'
+      ],
+      calculadora: [
+        '🧮 Recuerda: Densidad = Masa ÷ Volumen. ¡Piensa en cuánta "materia" cabe en un espacio!',
+        '📏 La masa se mide en gramos y el volumen en centímetros cúbicos. ¡Juntos hacen densidad!',
+        '✨ Si el número de densidad es menor que 1, ¡flotará en agua! 🏊',
+        '🎯 Compara con el agua (1 g/cm³) para ver si algo flota o se hunde.',
+        '💡 Piensa en esto: ¿qué pesa más, un kilo de plumas o un kilo de hierro? ¡La densidad lo explica!'
+      ],
+      experimento: [
+        '🧪 Mira cómo los objetos buscan su nivel según su densidad. ¡Es como un ascensor invisible!',
+        '👀 Los más densos van al fondo (miel) y los menos densos flotan arriba (alcohol).',
+        '🎈 El corcho sube porque tiene aire dentro. ¡El aire es menos denso que todo lo demás!',
+        '🧊 El hielo flota entre el agua y el aceite. ¡Está justito en el medio de densidades!',
+        '🌈 Cada capa tiene un color diferente para que veas la densidad a ojo de pájaro. ¡Genial!'
+      ],
+      quiz: [
+        '🧠 Lee cada pregunta con cuidado. ¡Las palabritas clave te darán la respuesta!',
+        '💪 Recuerda: si algo flota, tiene MENOS densidad que el agua. ¡Eso es fundamental!',
+        '🎯 La fórmula ρ = m/V es tu mejor amiga en este quiz.',
+        '✅ Piensa en ejemplos reales: ¿flota una manzana? ¿Flota un clavo de hierro?',
+        '🌟 No te rindas, ¡cada pregunta te hace más inteligente en física!'
+      ]
+    };
+    
+    let currentHintIndex = {
+      teoria: 0,
+      calculadora: 0,
+      experimento: 0,
+      quiz: 0
+    };
+    let assistantMinimized = false;
 
-</main>
+    // Materials data
+    const materials = [
+      { name: 'Oro', density: 19.3, emoji: '🥇', color: '#fbbf24' },
+      { name: 'Plomo', density: 11.3, emoji: '⚫', color: '#6b7280' },
+      { name: 'Hierro', density: 7.87, emoji: '🔩', color: '#78716c' },
+      { name: 'Aluminio', density: 2.7, emoji: '🥄', color: '#d1d5db' },
+      { name: 'Agua', density: 1.0, emoji: '💧', color: '#3b82f6' },
+      { name: 'Aceite', density: 0.9, emoji: '🫒', color: '#84cc16' },
+      { name: 'Madera', density: 0.6, emoji: '🪵', color: '#92400e' },
+      { name: 'Corcho', density: 0.24, emoji: '🍾', color: '#d4a574' }
+    ];
 
-<script>
-function showSection(id){
-document.querySelectorAll('.section').forEach(s=>s.style.display='none');
-document.getElementById(id).style.display='block';
-}
+    // Experiment objects
+    const experimentObjects = [
+      { name: 'Moneda', density: 8.9, emoji: '🪙', dropped: false },
+      { name: 'Uva', density: 1.1, emoji: '🍇', dropped: false },
+      { name: 'Corcho', density: 0.24, emoji: '🧱', dropped: false },
+      { name: 'Tornillo', density: 7.8, emoji: '🔩', dropped: false },
+      { name: 'Cubito hielo', density: 0.92, emoji: '🧊', dropped: false },
+      { name: 'Canica', density: 2.5, emoji: '🔮', dropped: false }
+    ];
 
-function calc(){
-let m=parseFloat(masa.value);
-let v=parseFloat(volumen.value);
-res.innerText="Densidad = "+(m/v).toFixed(2)+" g/cm³";
-}
+    // Quiz questions
+    const quizQuestions = [
+      {
+        question: '¿Cuál es la fórmula de la densidad?',
+        options: ['ρ = m × V', 'ρ = m / V', 'ρ = V / m', 'ρ = m + V'],
+        correct: 1
+      },
+      {
+        question: 'Si un objeto tiene una densidad menor que el agua (1 g/cm³), ¿qué ocurrirá?',
+        options: ['Se hundirá', 'Flotará', 'Se disolverá', 'No pasará nada'],
+        correct: 1
+      },
+      {
+        question: '¿Cuál es la unidad de densidad en el Sistema Internacional?',
+        options: ['g/cm³', 'kg/L', 'kg/m³', 'g/mL'],
+        correct: 2
+      },
+      {
+        question: 'Un objeto tiene 500g de masa y 100cm³ de volumen. ¿Cuál es su densidad?',
+        options: ['0.5 g/cm³', '5 g/cm³', '50 g/cm³', '500 g/cm³'],
+        correct: 1
+      },
+      {
+        question: '¿Por qué flota el hielo en el agua?',
+        options: ['Porque es más denso', 'Porque es menos denso', 'Porque es más pesado', 'Porque es transparente'],
+        correct: 1
+      },
+      {
+        question: '¿Qué material tiene mayor densidad?',
+        options: ['Madera', 'Agua', 'Hierro', 'Aceite'],
+        correct: 2
+      },
+      {
+        question: 'Si aumentamos la masa de un objeto manteniendo su volumen, la densidad...',
+        options: ['Disminuye', 'Se mantiene igual', 'Aumenta', 'Se vuelve cero'],
+        correct: 2
+      },
+      {
+        question: '¿Qué volumen ocupa un objeto de 200g si su densidad es 2 g/cm³?',
+        options: ['400 cm³', '100 cm³', '200 cm³', '50 cm³'],
+        correct: 1
+      }
+    ];
 
-function dropObj(emoji,density,name){
-let tower=document.getElementById('drops');
-let el=document.createElement('div');
-let targetPercent;
+    let currentQuestionIndex = 0;
+    let quizScore = 0;
+    let calcMode = 'densidad';
+    let experimentState = experimentObjects.map(obj => ({ ...obj }));
 
-if (density > 1.4) {
-  targetPercent = 85;
-} else if (density > 1.0) {
-  targetPercent = 65;
-} else if (density > 0.9) {
-  targetPercent = 50;
-} else if (density > 0.8) {
-  targetPercent = 35;
-} else {
-  targetPercent = 8; // CORCHO ARRIBA
-}
+    window.elementSdk.init({
+      defaultConfig,
+      onConfigChange: async (newConfig) => {
+        config = { ...defaultConfig, ...newConfig };
+        updateUI();
+      },
+      mapToCapabilities: (cfg) => ({
+        recolorables: [
+          {
+            get: () => cfg.primary_color || defaultConfig.primary_color,
+            set: (v) => { cfg.primary_color = v; window.elementSdk.setConfig({ primary_color: v }); }
+          },
+          {
+            get: () => cfg.secondary_color || defaultConfig.secondary_color,
+            set: (v) => { cfg.secondary_color = v; window.elementSdk.setConfig({ secondary_color: v }); }
+          },
+          {
+            get: () => cfg.text_color || defaultConfig.text_color,
+            set: (v) => { cfg.text_color = v; window.elementSdk.setConfig({ text_color: v }); }
+          },
+          {
+            get: () => cfg.accent_color || defaultConfig.accent_color,
+            set: (v) => { cfg.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); }
+          },
+          {
+            get: () => cfg.surface_color || defaultConfig.surface_color,
+            set: (v) => { cfg.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      }),
+      mapToEditPanelValues: (cfg) => new Map([
+        ['main_title', cfg.main_title || defaultConfig.main_title],
+        ['welcome_message', cfg.welcome_message || defaultConfig.welcome_message],
+        ['assistant_name', cfg.assistant_name || defaultConfig.assistant_name]
+      ])
+    });
 
-el.className='object-sink text-3xl';
-el.style.left=Math.random()*80+'%';
-el.style.setProperty('--sink-target',targetPercent+'%');
-el.textContent=emoji;
-tower.appendChild(el);
+    // Assistant functions
+    function getHint() {
+      const activeSection = document.querySelector('.section:not(.hidden)').id;
+      const hintArray = hints[activeSection] || hints.teoria;
+      const hint = hintArray[currentHintIndex[activeSection]];
+      
+      document.getElementById('hint-text').textContent = hint;
+      document.getElementById('hint-container').classList.remove('hidden');
+      document.getElementById('assistant-message').innerHTML = `${config.assistant_name || 'Densi'} te ayuda 💜`;
+      
+      currentHintIndex[activeSection] = (currentHintIndex[activeSection] + 1) % hintArray.length;
+    }
 
-const action = density > 1 ? 'se hunde hasta' : 'flota sobre';
-feedback.innerHTML = `${name} (${density} g/cm³) ${action} la capa correspondiente`;
-}
+    function hideHint() {
+      document.getElementById('hint-container').classList.add('hidden');
+      document.getElementById('assistant-message').innerHTML = `¡Hola! Soy ${config.assistant_name || 'Densi'}, tu asistente. 💜 ¿Necesitas ayuda?`;
+    }
 
-showSection('teoria');
-</script>
+    function toggleAssistant() {
+      assistantMinimized = !assistantMinimized;
+      document.getElementById('chat-bubble').classList.toggle('hidden', assistantMinimized);
+      document.getElementById('assistant-icon').classList.toggle('hidden', !assistantMinimized);
+    }
 
-</body>
+    function updateUI() {
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+
+      document.body.style.background = `linear-gradient(135deg, ${secondaryColor} 0%, ${surfaceColor} 50%, ${secondaryColor} 100%)`;
+      document.body.style.color = textColor;
+
+      document.getElementById('main-title').textContent = config.main_title || defaultConfig.main_title;
+      document.getElementById('welcome-message').textContent = config.welcome_message || defaultConfig.welcome_message;
+      
+      // Update assistant message with new name
+      const assistantGreeting = document.getElementById('assistant-message');
+      if (!document.getElementById('hint-container').classList.contains('hidden')) {
+        assistantGreeting.innerHTML = `${config.assistant_name || 'Densi'} te ayuda 💜`;
+      } else {
+        assistantGreeting.innerHTML = `¡Hola! Soy ${config.assistant_name || 'Densi'}, tu asistente. 💜 ¿Necesitas ayuda?`;
+      }
+
+      // Update active tab and buttons with primary color
+      document.querySelectorAll('.tab-active').forEach(el => {
+        el.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${accentColor} 100%)`;
+      });
+
+      // Update glow effect
+      const style = document.createElement('style');
+      style.textContent = `
+        .glow-effect {
+          animation: glow 2s ease-in-out infinite;
+        }
+        @keyframes glow {
+          0%, 100% { box-shadow: 0 0 20px ${primaryColor}4d; }
+          50% { box-shadow: 0 0 40px ${primaryColor}99; }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    function showSection(sectionId) {
+      document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+      document.getElementById(sectionId).classList.remove('hidden');
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('tab-active');
+        btn.style.background = '';
+        if (btn.dataset.tab === sectionId) {
+          btn.classList.add('tab-active');
+          const primaryColor = config.primary_color || defaultConfig.primary_color;
+          btn.style.background = `linear-gradient(135deg, ${primaryColor} 0%, #8b5cf6 100%)`;
+        }
+      });
+    }
+
+    // Materials Grid
+    function renderMaterials() {
+      const grid = document.getElementById('materials-grid');
+      grid.innerHTML = materials.map(mat => `
+        <div class="p-3 rounded-xl text-center transition-all hover:scale-105 cursor-pointer" 
+             style="background: ${mat.color}20; border: 2px solid ${mat.color}">
+          <span class="text-2xl">${mat.emoji}</span>
+          <p class="font-bold text-sm mt-1">${mat.name}</p>
+          <p class="text-xs opacity-80">${mat.density} g/cm³</p>
+        </div>
+      `).join('');
+    }
+
+    // Calculator
+    function setCalcMode(mode) {
+      calcMode = mode;
+      document.querySelectorAll('.calc-mode-btn').forEach(btn => {
+        const isActive = btn.dataset.mode === mode;
+        btn.classList.toggle('border-cyan-400', isActive);
+        btn.style.background = isActive ? 'linear-gradient(135deg, rgba(59,130,246,0.3), rgba(6,182,212,0.3))' : 'rgba(255,255,255,0.1)';
+      });
+      renderCalcInputs();
+    }
+
+    function renderCalcInputs() {
+      const container = document.getElementById('calc-inputs');
+      let html = '';
+      
+      if (calcMode === 'densidad') {
+        html = `
+          <div>
+            <label class="block text-sm font-semibold mb-2">Masa (g)</label>
+            <input type="number" id="input-masa" class="w-full p-4 rounded-xl bg-white/10 border border-white/20 text-white text-lg focus:outline-none focus:border-cyan-400" placeholder="Ej: 100" min="0" step="0.1">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-2">Volumen (cm³)</label>
+            <input type="number" id="input-volumen" class="w-full p-4 rounded-xl bg-white/10 border border-white/20 text-white text-lg focus:outline-none focus:border-cyan-400" placeholder="Ej: 50" min="0" step="0.1">
+          </div>
+        `;
+      } else if (calcMode === 'masa') {
+        html = `
+          <div>
+            <label class="block text-sm font-semibold mb-2">Densidad (g/cm³)</label>
+            <input type="number" id="input-densidad" class="w-full p-4 rounded-xl bg-white/10 border border-white/20 text-white text-lg focus:outline-none focus:border-cyan-400" placeholder="Ej: 2.5" min="0" step="0.01">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-2">Volumen (cm³)</label>
+            <input type="number" id="input-volumen" class="w-full p-4 rounded-xl bg-white/10 border border-white/20 text-white text-lg focus:outline-none focus:border-cyan-400" placeholder="Ej: 50" min="0" step="0.1">
+          </div>
+        `;
+      } else {
+        html = `
+          <div>
+            <label class="block text-sm font-semibold mb-2">Masa (g)</label>
+            <input type="number" id="input-masa" class="w-full p-4 rounded-xl bg-white/10 border border-white/20 text-white text-lg focus:outline-none focus:border-cyan-400" placeholder="Ej: 100" min="0" step="0.1">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-2">Densidad (g/cm³)</label>
+            <input type="number" id="input-densidad" class="w-full p-4 rounded-xl bg-white/10 border border-white/20 text-white text-lg focus:outline-none focus:border-cyan-400" placeholder="Ej: 2.5" min="0" step="0.01">
+          </div>
+        `;
+      }
+      container.innerHTML = html;
+    }
+
+    function calcular() {
+      const resultDiv = document.getElementById('calc-result');
+      const resultValue = document.getElementById('result-value');
+      const resultExplanation = document.getElementById('result-explanation');
+      
+      let result, unit, explanation;
+      
+      if (calcMode === 'densidad') {
+        const masa = parseFloat(document.getElementById('input-masa').value);
+        const volumen = parseFloat(document.getElementById('input-volumen').value);
+        if (isNaN(masa) || isNaN(volumen) || volumen === 0) {
+          resultValue.textContent = '❌ Datos inválidos';
+          resultExplanation.textContent = 'Por favor, introduce valores válidos (el volumen no puede ser 0)';
+          resultDiv.classList.remove('hidden');
+          return;
+        }
+        result = (masa / volumen).toFixed(2);
+        unit = 'g/cm³';
+        const floats = parseFloat(result) < 1 ? 'flotaría en agua 🏊' : 'se hundiría en agua ⬇️';
+        explanation = `Con ${masa}g de masa y ${volumen}cm³ de volumen, este objeto ${floats}`;
+      } else if (calcMode === 'masa') {
+        const densidad = parseFloat(document.getElementById('input-densidad').value);
+        const volumen = parseFloat(document.getElementById('input-volumen').value);
+        if (isNaN(densidad) || isNaN(volumen)) {
+          resultValue.textContent = '❌ Datos inválidos';
+          resultExplanation.textContent = 'Por favor, introduce valores válidos';
+          resultDiv.classList.remove('hidden');
+          return;
+        }
+        result = (densidad * volumen).toFixed(2);
+        unit = 'g';
+        explanation = `Un objeto de ${volumen}cm³ con densidad ${densidad}g/cm³ tiene esta masa`;
+      } else {
+        const masa = parseFloat(document.getElementById('input-masa').value);
+        const densidad = parseFloat(document.getElementById('input-densidad').value);
+        if (isNaN(masa) || isNaN(densidad) || densidad === 0) {
+          resultValue.textContent = '❌ Datos inválidos';
+          resultExplanation.textContent = 'Por favor, introduce valores válidos (la densidad no puede ser 0)';
+          resultDiv.classList.remove('hidden');
+          return;
+        }
+        result = (masa / densidad).toFixed(2);
+        unit = 'cm³';
+        explanation = `Un objeto de ${masa}g con densidad ${densidad}g/cm³ ocupa este espacio`;
+      }
+      
+      resultValue.textContent = `${result} ${unit}`;
+      resultExplanation.textContent = explanation;
+      resultDiv.classList.remove('hidden');
+    }
+
+    // Experiment
+    function renderExperimentObjects() {
+      const grid = document.getElementById('objects-grid');
+      grid.innerHTML = experimentState.map((obj, idx) => `
+        <button onclick="dropObject(${idx})" 
+                class="draggable p-4 rounded-xl text-center ${obj.dropped ? 'opacity-40 cursor-not-allowed' : 'bg-white/20 hover:bg-white/30'}"
+                ${obj.dropped ? 'disabled' : ''}>
+          <span class="text-3xl">${obj.emoji}</span>
+          <p class="font-semibold text-sm mt-2">${obj.name}</p>
+          <p class="text-xs opacity-70">${obj.density} g/cm³</p>
+        </button>
+      `).join('');
+    }
+
+    function dropObject(index) {
+      if (experimentState[index].dropped) return;
+      
+      const obj = experimentState[index];
+      experimentState[index].dropped = true;
+      
+      const tower = document.getElementById('dropped-objects');
+      const objEl = document.createElement('div');
+      
+      // Calculate position based on density
+      let targetPercent;
+      if (obj.density > 1.4) {
+        targetPercent = 88; // Bottom (honey)
+      } else if (obj.density > 1.0) {
+        targetPercent = 62; // Water layer
+      } else if (obj.density > 0.9) {
+        targetPercent = 45; // Between water and oil
+      } else if (obj.density > 0.8) {
+        targetPercent = 35; // Oil layer
+      } else {
+        targetPercent = 15; // Alcohol layer (top)
+      }
+      
+      objEl.className = 'absolute text-3xl object-sink';
+      objEl.style.cssText = `
+        left: ${20 + Math.random() * 60}%;
+        top: 10%;
+        --sink-target: ${targetPercent}%;
+        transform: translateX(-50%);
+        z-index: 10;
+      `;
+      objEl.textContent = obj.emoji;
+      tower.appendChild(objEl);
+      
+      // Show feedback
+      const feedback = document.getElementById('experiment-feedback');
+      const feedbackText = document.getElementById('feedback-text');
+      
+      let layerName;
+      if (obj.density > 1.4) layerName = 'la miel';
+      else if (obj.density > 1.0) layerName = 'el agua';
+      else if (obj.density > 0.9) layerName = 'entre el agua y el aceite';
+      else if (obj.density > 0.8) layerName = 'el aceite';
+      else layerName = 'el alcohol';
+      
+      feedbackText.innerHTML = `<span class="text-2xl">${obj.emoji}</span> <strong>${obj.name}</strong> (${obj.density} g/cm³) flota en ${layerName}`;
+      feedback.classList.remove('hidden');
+      
+      renderExperimentObjects();
+    }
+
+    function resetExperiment() {
+      experimentState = experimentObjects.map(obj => ({ ...obj, dropped: false }));
+      document.getElementById('dropped-objects').innerHTML = '';
+      document.getElementById('experiment-feedback').classList.add('hidden');
+      renderExperimentObjects();
+    }
+
+    // Quiz
+    function renderQuestion() {
+      const question = quizQuestions[currentQuestionIndex];
+      document.getElementById('question-text').textContent = question.question;
+      document.getElementById('current-question').textContent = currentQuestionIndex + 1;
+      document.getElementById('progress-bar').style.width = `${((currentQuestionIndex + 1) / quizQuestions.length) * 100}%`;
+      
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = question.options.map((opt, idx) => `
+        <button onclick="selectAnswer(${idx})" class="quiz-option w-full p-4 text-left rounded-xl bg-white/10 hover:bg-white/20 transition-all border-2 border-transparent hover:border-cyan-400/50">
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/20 mr-3 font-bold">${String.fromCharCode(65 + idx)}</span>
+          ${opt}
+        </button>
+      `).join('');
+    }
+
+    function selectAnswer(selectedIndex) {
+      const question = quizQuestions[currentQuestionIndex];
+      const options = document.querySelectorAll('.quiz-option');
+      
+      options.forEach((opt, idx) => {
+        opt.disabled = true;
+        if (idx === question.correct) {
+          opt.classList.add('bg-green-500/40', 'border-green-400');
+        } else if (idx === selectedIndex) {
+          opt.classList.add('bg-red-500/40', 'border-red-400');
+        }
+      });
+      
+      if (selectedIndex === question.correct) {
+        quizScore++;
+        document.getElementById('score').textContent = quizScore;
+      }
+      
+      setTimeout(() => {
+        if (currentQuestionIndex < quizQuestions.length - 1) {
+          currentQuestionIndex++;
+          renderQuestion();
+        } else {
+          showQuizResults();
+        }
+      }, 1500);
+    }
+
+    function showQuizResults() {
+      document.getElementById('question-card').classList.add('hidden');
+      const results = document.getElementById('quiz-results');
+      results.classList.remove('hidden');
+      
+      const percentage = (quizScore / quizQuestions.length) * 100;
+      let emoji, title;
+      
+      if (percentage >= 90) {
+        emoji = '🏆';
+        title = '¡Excelente! ¡Eres un experto!';
+      } else if (percentage >= 70) {
+        emoji = '🌟';
+        title = '¡Muy bien! ¡Buen trabajo!';
+      } else if (percentage >= 50) {
+        emoji = '💪';
+        title = '¡Bien! Sigue practicando';
+      } else {
+        emoji = '📚';
+        title = '¡Ánimo! Repasa la teoría';
+      }
+      
+      document.getElementById('results-emoji').textContent = emoji;
+      document.getElementById('results-title').textContent = title;
+      document.getElementById('results-score').textContent = `Has acertado ${quizScore} de ${quizQuestions.length} preguntas (${percentage.toFixed(0)}%)`;
+    }
+
+    function restartQuiz() {
+      currentQuestionIndex = 0;
+      quizScore = 0;
+      document.getElementById('score').textContent = '0';
+      document.getElementById('question-card').classList.remove('hidden');
+      document.getElementById('quiz-results').classList.add('hidden');
+      renderQuestion();
+    }
+
+    // Initialize
+    function init() {
+      renderMaterials();
+      renderCalcInputs();
+      renderExperimentObjects();
+      renderQuestion();
+      document.getElementById('total-questions').textContent = quizQuestions.length;
+      showSection('teoria');
+      updateUI();
+    }
+
+    init();
+  </script>
+  </div>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c7ad98f02444ffb',t:'MTc3MDA0NzQ4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
